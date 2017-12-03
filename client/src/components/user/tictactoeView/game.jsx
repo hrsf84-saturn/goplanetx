@@ -199,11 +199,18 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     let status;
-    if (winner.player) {
+    if (winner.player === '╳' || (this.props.twoPlayers && winner.player === '◯')) {
       status = (
         <div className="winner">
           <span className="winnerHeader">Winner: </span>
           {winner.player} {this.state.winner}
+        </div>
+      );
+    } else if (winner.player === '◯' && !this.props.twoPlayers) {
+      status = (
+        <div className="winner">
+          <span className="winnerHeader">Winner: </span>
+          {winner.player} Computer
         </div>
       );
     } else {
