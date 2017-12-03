@@ -20,7 +20,9 @@ class Board extends React.Component {
   }
 
   resetHotSquareClickCount() {
-    this.state.hotSquareClickCount = 0;
+    this.setState({
+      hotSquareClickCount: 0,
+    });
   }
 
   incrementHotSquareClickCount() {
@@ -100,7 +102,7 @@ Board.propTypes = {
 
 Board.defaultProps = {
   line: null,
-}
+};
 
 export {
   Board,

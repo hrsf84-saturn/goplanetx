@@ -61,13 +61,10 @@ class Game extends React.Component {
       stepNumber: 0,
       xIsNext: true,
       gameInPlay: true,
-    });
+    }, () => { this.child.resetHotSquareClickCount(); });
   }
 
   onPlayerChange() {
-    // when the button is clicked to change between player 2 and computer
-      // want to reset the wins (on game.jsx)
-      // reset the board (call onReset)
     this.setState({
       player1wins: 0,
       player2wins: 0,
@@ -93,7 +90,7 @@ class Game extends React.Component {
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
     }, () => {
-      const winner = calculateWinner(squares);
+      let winner = calculateWinner(squares);
       if (winner.player === '╳') {
         this.setState({
           player1wins: this.state.player1wins + 1,
@@ -150,6 +147,21 @@ class Game extends React.Component {
             history: history.concat([{ squares }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
+          }, () => {
+            winner = calculateWinner(squares);
+            if (winner.player === '╳') {
+              this.setState({
+                player1wins: this.state.player1wins + 1,
+                gameInPlay: false,
+                winner: this.state.player1,
+              });
+            } else if (winner.player === '◯') {
+              this.setState({
+                player2wins: this.state.player2wins + 1,
+                gameInPlay: false,
+                winner: this.state.player2,
+              });
+            }
           })
         ), 300);
       }
@@ -218,6 +230,7 @@ class Game extends React.Component {
                   onClick={i => this.handleClick(i)}
                   unlockForms={this.props.unlockForms}
                   line={winner.line}
+                  ref={(reset) => { this.child = reset; }}
                 />
                 <span>
                   <button id="reset" onClick={this.onReset}>reset</button>
