@@ -119,16 +119,18 @@ class Game extends React.Component {
           }
         }
         // try to block
-        for (let l = 0; l < lines.length; l += 1) {
-          if (/[╳](.*)[╳]/.test(squares[lines[l][0]] + squares[lines[l][1]] + squares[lines[l][2]])) {
-            for (let j = 0; j < 3; j += 1) {
-              if (squares[lines[l][j]] === null) {
-                squares[lines[l][j]] = '◯';
-                moved = true;
-                break;
+        if (!moved) {
+          for (let l = 0; l < lines.length; l += 1) {
+            if (/[╳](.*)[╳]/.test(squares[lines[l][0]] + squares[lines[l][1]] + squares[lines[l][2]])) {
+              for (let j = 0; j < 3; j += 1) {
+                if (squares[lines[l][j]] === null) {
+                  squares[lines[l][j]] = '◯';
+                  moved = true;
+                  break;
+                }
               }
+              if (moved) break;
             }
-            if (moved) break;
           }
         }
         if (!moved) {
